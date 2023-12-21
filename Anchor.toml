@@ -1,0 +1,16 @@
+[features]
+seeds = false
+skip-lint = false
+
+[programs.devnet]
+triad = "2PgNpnkxketjx182nMSq9HeX24Wc5ZLEe55nwPgETvA6"
+
+[registry]
+url = "https://devnet.helius-rpc.com/?api-key=99a121c0-a036-4c3d-a853-03623d1d2390"
+
+[provider]
+cluster = "Devnet"
+wallet = "/Users/dannpl/.config/solana/id.json"
+
+[scripts]
+test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
