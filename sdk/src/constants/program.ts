@@ -1,0 +1,1 @@
+const TRIAD_PROGRAM_ID = '2PgNpnkxketjx182nMSq9HeX24Wc5ZLEe55nwPgETvA6'

@@ -2,7 +2,7 @@
   "scripts": {
     "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
     "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check",
-    "update-types": "cp target/types/* sdk/src/types/programs && prettier --write sdk/src/types/programs",
+    "update-types": "cp target/types/* sdk/src/types && prettier --write sdk/src/types",
     "update-idl": "cp target/idl/* sdk/src/idl",
     "update-programs": "yarn update-types && yarn update-idl",
     "build": "anchor build && yarn update-types && yarn update-idl",
