@@ -5,16 +5,15 @@ pub struct User {
     pub bump: u8,
     pub pass_type: PassType,
     pub authority: Pubkey,
-    pub manager: Pubkey,
+    pub referral: Pubkey,
 }
 
 #[derive(Clone, AnchorSerialize, AnchorDeserialize, PartialEq)]
 pub enum PassType {
+    EXPIRED,
     MONTHLY,
-    QUARTERLY,
     SEMIANNUAL,
     ANNUAL,
-    TRIAL,
 }
 
 impl User {
