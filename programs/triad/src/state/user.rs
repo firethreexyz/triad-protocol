@@ -16,6 +16,11 @@ pub enum PassType {
     ANNUAL,
 }
 
+#[derive(AnchorSerialize, AnchorDeserialize)]
+pub struct CreateUserArgs {
+    pub referral: Pubkey,
+}
+
 impl User {
     /// static prefix seed string used to derive the PDAs
     pub const PREFIX_SEED: &[u8] = b"user";

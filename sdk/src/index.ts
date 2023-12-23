@@ -1,6 +1,6 @@
 import { AnchorProvider, Program } from '@project-serum/anchor'
 import { Wallet } from './types/wallet'
-import { Connection } from '@solana/web3.js'
+import { Connection, PublicKey } from '@solana/web3.js'
 import { IDL, Triad } from './types/triad'
 
 export default class TriadClient {
@@ -20,8 +20,15 @@ export default class TriadClient {
     this.program = new Program<Triad>(IDL, TRIAD_PROGRAM_ID, this.provider)
   }
 
-  public async createUser() {
-    this.program.methods.createUser().transaction()
+  public async createUser({ referral }: { referral: PublicKey }) {
+    return this.program.methods
+      .createUser({
+        referral
+      })
+      .accounts({
+        payer: this.wallet.publicKey
+      })
+      .transaction()
   }
 
   public async payPass() {}

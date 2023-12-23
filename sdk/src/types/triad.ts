@@ -21,7 +21,14 @@ export type Triad = {
           isSigner: false
         }
       ]
-      args: []
+      args: [
+        {
+          name: 'args'
+          type: {
+            defined: 'CreateUserArgs'
+          }
+        }
+      ]
     }
   ]
   accounts: [
@@ -45,7 +52,7 @@ export type Triad = {
             type: 'publicKey'
           },
           {
-            name: 'manager'
+            name: 'referral'
             type: 'publicKey'
           }
         ]
@@ -54,24 +61,33 @@ export type Triad = {
   ]
   types: [
     {
+      name: 'CreateUserArgs'
+      type: {
+        kind: 'struct'
+        fields: [
+          {
+            name: 'referral'
+            type: 'publicKey'
+          }
+        ]
+      }
+    },
+    {
       name: 'PassType'
       type: {
         kind: 'enum'
         variants: [
           {
-            name: 'MONTHLY'
+            name: 'EXPIRED'
           },
           {
-            name: 'QUARTERLY'
+            name: 'MONTHLY'
           },
           {
             name: 'SEMIANNUAL'
           },
           {
             name: 'ANNUAL'
-          },
-          {
-            name: 'TRIAL'
           }
         ]
       }
@@ -119,7 +135,14 @@ export const IDL: Triad = {
           isSigner: false
         }
       ],
-      args: []
+      args: [
+        {
+          name: 'args',
+          type: {
+            defined: 'CreateUserArgs'
+          }
+        }
+      ]
     }
   ],
   accounts: [
@@ -143,7 +166,7 @@ export const IDL: Triad = {
             type: 'publicKey'
           },
           {
-            name: 'manager',
+            name: 'referral',
             type: 'publicKey'
           }
         ]
@@ -152,24 +175,33 @@ export const IDL: Triad = {
   ],
   types: [
     {
+      name: 'CreateUserArgs',
+      type: {
+        kind: 'struct',
+        fields: [
+          {
+            name: 'referral',
+            type: 'publicKey'
+          }
+        ]
+      }
+    },
+    {
       name: 'PassType',
       type: {
         kind: 'enum',
         variants: [
           {
-            name: 'MONTHLY'
+            name: 'EXPIRED'
           },
           {
-            name: 'QUARTERLY'
+            name: 'MONTHLY'
           },
           {
             name: 'SEMIANNUAL'
           },
           {
             name: 'ANNUAL'
-          },
-          {
-            name: 'TRIAL'
           }
         ]
       }
