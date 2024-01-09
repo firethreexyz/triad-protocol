@@ -36,7 +36,7 @@ export type Triad = {
       ]
     },
     {
-      name: 'payPass'
+      name: 'addPlan'
       accounts: [
         {
           name: 'payer'
@@ -63,7 +63,7 @@ export type Triad = {
         {
           name: 'args'
           type: {
-            defined: 'PayPassArgs'
+            defined: 'AddPlanArgs'
           }
         }
       ]
@@ -80,9 +80,9 @@ export type Triad = {
             type: 'u8'
           },
           {
-            name: 'pass'
+            name: 'plan'
             type: {
-              defined: 'Pass'
+              defined: 'Plan'
             }
           },
           {
@@ -99,14 +99,14 @@ export type Triad = {
   ]
   types: [
     {
-      name: 'PayPassArgs'
+      name: 'AddPlanArgs'
       type: {
         kind: 'struct'
         fields: [
           {
-            name: 'pass'
+            name: 'plan'
             type: {
-              defined: 'Pass'
+              defined: 'Plan'
             }
           }
         ]
@@ -125,7 +125,7 @@ export type Triad = {
       }
     },
     {
-      name: 'Pass'
+      name: 'Plan'
       type: {
         kind: 'enum'
         variants: [
@@ -202,7 +202,7 @@ export const IDL: Triad = {
       ]
     },
     {
-      name: 'payPass',
+      name: 'addPlan',
       accounts: [
         {
           name: 'payer',
@@ -229,7 +229,7 @@ export const IDL: Triad = {
         {
           name: 'args',
           type: {
-            defined: 'PayPassArgs'
+            defined: 'AddPlanArgs'
           }
         }
       ]
@@ -246,9 +246,9 @@ export const IDL: Triad = {
             type: 'u8'
           },
           {
-            name: 'pass',
+            name: 'plan',
             type: {
-              defined: 'Pass'
+              defined: 'Plan'
             }
           },
           {
@@ -265,14 +265,14 @@ export const IDL: Triad = {
   ],
   types: [
     {
-      name: 'PayPassArgs',
+      name: 'AddPlanArgs',
       type: {
         kind: 'struct',
         fields: [
           {
-            name: 'pass',
+            name: 'plan',
             type: {
-              defined: 'Pass'
+              defined: 'Plan'
             }
           }
         ]
@@ -291,7 +291,7 @@ export const IDL: Triad = {
       }
     },
     {
-      name: 'Pass',
+      name: 'Plan',
       type: {
         kind: 'enum',
         variants: [

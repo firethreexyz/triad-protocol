@@ -17,7 +17,7 @@ pub mod triad {
         instructions::create_user(ctx, args)
     }
 
-    pub fn pay_pass(ctx: Context<PayPass>, args: PayPassArgs) -> Result<()> {
-        instructions::pay_pass(ctx, args)
+    pub fn add_plan(ctx: Context<AddPlan>, args: AddPlanArgs) -> Result<()> {
+        instructions::add_plan(ctx, args)
     }
 }

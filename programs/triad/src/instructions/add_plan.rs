@@ -2,11 +2,11 @@ use anchor_lang::prelude::*;
 
 use crate::{
     errors::GenericError,
-    state::{PayPassArgs, User},
+    state::{AddPlanArgs, User},
 };
 
 #[derive(Accounts)]
-pub struct PayPass<'info> {
+pub struct AddPlan<'info> {
     #[account(mut)]
     pub payer: Signer<'info>,
 
@@ -25,14 +25,14 @@ pub struct PayPass<'info> {
     pub system_program: Program<'info, System>,
 }
 
-pub fn pay_pass(ctx: Context<PayPass>, args: PayPassArgs) -> Result<()> {
+pub fn add_plan(ctx: Context<AddPlan>, args: AddPlanArgs) -> Result<()> {
     if ctx.accounts.payer.key != ctx.accounts.authority.key {
         return Err(GenericError::Unauthorized.into());
     }
 
     let user = &mut ctx.accounts.user;
 
-    user.pass = args.pass;
+    user.plan = args.plan;
 
     Ok(())
 }

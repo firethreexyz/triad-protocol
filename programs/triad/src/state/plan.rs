@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 
 #[derive(Clone, Copy, AnchorSerialize, AnchorDeserialize, PartialEq, Eq)]
-pub enum Pass {
+pub enum Plan {
     Expired,
     Monthly,
     Semiannual,
@@ -9,6 +9,6 @@ pub enum Pass {
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize)]
-pub struct PayPassArgs {
-    pub pass: Pass,
+pub struct AddPlanArgs {
+    pub plan: Plan,
 }

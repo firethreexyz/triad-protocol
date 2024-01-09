@@ -1,5 +1,5 @@
-mod pass;
+mod plan;
 mod user;
 
-pub use pass::*;
+pub use plan::*;
 pub use user::*;

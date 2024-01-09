@@ -38,15 +38,15 @@ export default class TriadClient {
       .transaction()
   }
 
-  public async payPass(pass: Pass) {
+  public async addPlan(plan: Plan) {
     const [UserPDA] = PublicKey.findProgramAddressSync(
       [Buffer.from('user'), this.wallet.publicKey.toBuffer()],
       this.program.programId
     )
 
     return this.program.methods
-      .payPass({
-        pass
+      .addPlan({
+        plan
       })
       .accounts({
         payer: this.wallet.publicKey,
@@ -64,7 +64,7 @@ export default class TriadClient {
   public async withdrawFees() {}
 }
 
-export class Pass {
+export class Plan {
   static readonly EXPIRED = { expired: {} }
   static readonly MONTHLY = { monthly: {} }
   static readonly SEMIANNUAL = { semiannual: {} }

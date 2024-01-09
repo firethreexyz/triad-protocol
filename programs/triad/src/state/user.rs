@@ -1,11 +1,11 @@
 use anchor_lang::prelude::*;
 
-use crate::state::Pass;
+use crate::state::Plan;
 
 #[account]
 pub struct User {
     pub bump: u8,
-    pub pass: Pass,
+    pub plan: Plan,
     pub authority: Pubkey,
     pub referral: Pubkey,
 }

@@ -1,5 +1,5 @@
+mod add_plan;
 mod create_user;
-mod pay_pass;
 
+pub use add_plan::*;
 pub use create_user::*;
-pub use pay_pass::*;
