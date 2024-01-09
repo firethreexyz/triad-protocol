@@ -1,19 +1,13 @@
 use anchor_lang::prelude::*;
 
+use crate::state::Pass;
+
 #[account]
 pub struct User {
     pub bump: u8,
-    pub pass_type: PassType,
+    pub pass: Pass,
     pub authority: Pubkey,
     pub referral: Pubkey,
-}
-
-#[derive(Clone, AnchorSerialize, AnchorDeserialize, PartialEq)]
-pub enum PassType {
-    EXPIRED,
-    MONTHLY,
-    SEMIANNUAL,
-    ANNUAL,
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize)]

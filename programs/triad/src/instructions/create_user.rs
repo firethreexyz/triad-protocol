@@ -7,6 +7,8 @@ pub struct CreateUser<'info> {
     #[account(mut)]
     pub payer: Signer<'info>,
 
+    pub authority: Signer<'info>,
+
     #[account(init, payer = payer, space = User::SPACE, seeds = [User::PREFIX_SEED.as_ref(), payer.key.as_ref()], bump)]
     pub user: Account<'info, User>,
 

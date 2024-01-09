@@ -3,7 +3,7 @@ seeds = false
 skip-lint = false
 
 [programs.devnet]
-triad = "2PgNpnkxketjx182nMSq9HeX24Wc5ZLEe55nwPgETvA6"
+triad = "Fire3T9ABT33UYoVJZwWUnbPR3rgoVw98y82UgHZ8Bm"
 
 [registry]
 url = "https://devnet.helius-rpc.com/?api-key=99a121c0-a036-4c3d-a853-03623d1d2390"
