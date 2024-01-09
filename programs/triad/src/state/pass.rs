@@ -1,11 +1,11 @@
 use anchor_lang::prelude::*;
 
-#[derive(Clone, AnchorSerialize, AnchorDeserialize, PartialEq)]
+#[derive(Clone, Copy, AnchorSerialize, AnchorDeserialize, PartialEq, Eq)]
 pub enum Pass {
-    EXPIRED,
-    MONTHLY,
-    SEMIANNUAL,
-    ANNUAL,
+    Expired,
+    Monthly,
+    Semiannual,
+    Annual,
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize)]

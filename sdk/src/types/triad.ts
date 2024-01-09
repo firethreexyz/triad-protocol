@@ -11,6 +11,11 @@ export type Triad = {
           isSigner: true
         },
         {
+          name: 'authority'
+          isMut: false
+          isSigner: true
+        },
+        {
           name: 'user'
           isMut: true
           isSigner: false
@@ -29,6 +34,39 @@ export type Triad = {
           }
         }
       ]
+    },
+    {
+      name: 'payPass'
+      accounts: [
+        {
+          name: 'payer'
+          isMut: true
+          isSigner: true
+        },
+        {
+          name: 'authority'
+          isMut: false
+          isSigner: true
+        },
+        {
+          name: 'user'
+          isMut: false
+          isSigner: false
+        },
+        {
+          name: 'systemProgram'
+          isMut: false
+          isSigner: false
+        }
+      ]
+      args: [
+        {
+          name: 'args'
+          type: {
+            defined: 'PayPassArgs'
+          }
+        }
+      ]
     }
   ]
   accounts: [
@@ -42,9 +80,9 @@ export type Triad = {
             type: 'u8'
           },
           {
-            name: 'passType'
+            name: 'pass'
             type: {
-              defined: 'PassType'
+              defined: 'Pass'
             }
           },
           {
@@ -61,6 +99,20 @@ export type Triad = {
   ]
   types: [
     {
+      name: 'PayPassArgs'
+      type: {
+        kind: 'struct'
+        fields: [
+          {
+            name: 'pass'
+            type: {
+              defined: 'Pass'
+            }
+          }
+        ]
+      }
+    },
+    {
       name: 'CreateUserArgs'
       type: {
         kind: 'struct'
@@ -73,21 +125,21 @@ export type Triad = {
       }
     },
     {
-      name: 'PassType'
+      name: 'Pass'
       type: {
         kind: 'enum'
         variants: [
           {
-            name: 'EXPIRED'
+            name: 'Expired'
           },
           {
-            name: 'MONTHLY'
+            name: 'Monthly'
           },
           {
-            name: 'SEMIANNUAL'
+            name: 'Semiannual'
           },
           {
-            name: 'ANNUAL'
+            name: 'Annual'
           }
         ]
       }
@@ -125,6 +177,11 @@ export const IDL: Triad = {
           isSigner: true
         },
         {
+          name: 'authority',
+          isMut: false,
+          isSigner: true
+        },
+        {
           name: 'user',
           isMut: true,
           isSigner: false
@@ -143,6 +200,39 @@ export const IDL: Triad = {
           }
         }
       ]
+    },
+    {
+      name: 'payPass',
+      accounts: [
+        {
+          name: 'payer',
+          isMut: true,
+          isSigner: true
+        },
+        {
+          name: 'authority',
+          isMut: false,
+          isSigner: true
+        },
+        {
+          name: 'user',
+          isMut: false,
+          isSigner: false
+        },
+        {
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false
+        }
+      ],
+      args: [
+        {
+          name: 'args',
+          type: {
+            defined: 'PayPassArgs'
+          }
+        }
+      ]
     }
   ],
   accounts: [
@@ -156,9 +246,9 @@ export const IDL: Triad = {
             type: 'u8'
           },
           {
-            name: 'passType',
+            name: 'pass',
             type: {
-              defined: 'PassType'
+              defined: 'Pass'
             }
           },
           {
@@ -175,6 +265,20 @@ export const IDL: Triad = {
   ],
   types: [
     {
+      name: 'PayPassArgs',
+      type: {
+        kind: 'struct',
+        fields: [
+          {
+            name: 'pass',
+            type: {
+              defined: 'Pass'
+            }
+          }
+        ]
+      }
+    },
+    {
       name: 'CreateUserArgs',
       type: {
         kind: 'struct',
@@ -187,21 +291,21 @@ export const IDL: Triad = {
       }
     },
     {
-      name: 'PassType',
+      name: 'Pass',
       type: {
         kind: 'enum',
         variants: [
           {
-            name: 'EXPIRED'
+            name: 'Expired'
           },
           {
-            name: 'MONTHLY'
+            name: 'Monthly'
           },
           {
-            name: 'SEMIANNUAL'
+            name: 'Semiannual'
           },
           {
-            name: 'ANNUAL'
+            name: 'Annual'
           }
         ]
       }

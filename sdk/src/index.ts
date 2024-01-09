@@ -21,17 +21,39 @@ export default class TriadClient {
   }
 
   public async createUser({ referral }: { referral: PublicKey }) {
+    const [UserPDA] = PublicKey.findProgramAddressSync(
+      [Buffer.from('user'), this.wallet.publicKey.toBuffer()],
+      this.program.programId
+    )
+
     return this.program.methods
       .createUser({
         referral
       })
       .accounts({
-        payer: this.wallet.publicKey
+        payer: this.wallet.publicKey,
+        authority: this.wallet.publicKey,
+        user: UserPDA
       })
       .transaction()
   }
 
-  public async payPass() {}
+  public async payPass(pass: Pass) {
+    const [UserPDA] = PublicKey.findProgramAddressSync(
+      [Buffer.from('user'), this.wallet.publicKey.toBuffer()],
+      this.program.programId
+    )
+
+    return this.program.methods
+      .payPass({
+        pass
+      })
+      .accounts({
+        payer: this.wallet.publicKey,
+        user: UserPDA
+      })
+      .transaction()
+  }
 
   public async createVault() {}
 
@@ -40,4 +62,11 @@ export default class TriadClient {
   public async withdraw() {}
 
   public async withdrawFees() {}
+}
+
+export class Pass {
+  static readonly EXPIRED = { expired: {} }
+  static readonly MONTHLY = { monthly: {} }
+  static readonly SEMIANNUAL = { semiannual: {} }
+  static readonly ANNUAL = { annual: {} }
 }
