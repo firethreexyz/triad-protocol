@@ -1,6 +1,8 @@
 use anchor_lang::prelude::*;
 
-#[account]
+#[account(zero_copy(unsafe))]
+#[derive(Default, Eq, PartialEq, Debug)]
+#[repr(C)]
 pub struct Vault {
     pub bump: u8,
     pub authority: Pubkey,
