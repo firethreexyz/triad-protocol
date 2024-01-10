@@ -67,6 +67,39 @@ export type Triad = {
           }
         }
       ]
+    },
+    {
+      name: 'createVault'
+      accounts: [
+        {
+          name: 'payer'
+          isMut: true
+          isSigner: true
+        },
+        {
+          name: 'authority'
+          isMut: false
+          isSigner: true
+        },
+        {
+          name: 'vault'
+          isMut: true
+          isSigner: false
+        },
+        {
+          name: 'systemProgram'
+          isMut: false
+          isSigner: false
+        }
+      ]
+      args: [
+        {
+          name: 'args'
+          type: {
+            defined: 'CreateVaultArgs'
+          }
+        }
+      ]
     }
   ]
   accounts: [
@@ -95,6 +128,32 @@ export type Triad = {
           }
         ]
       }
+    },
+    {
+      name: 'vault'
+      type: {
+        kind: 'struct'
+        fields: [
+          {
+            name: 'bump'
+            type: 'u8'
+          },
+          {
+            name: 'authority'
+            type: 'publicKey'
+          },
+          {
+            name: 'name'
+            type: {
+              array: ['u8', 32]
+            }
+          },
+          {
+            name: 'token'
+            type: 'publicKey'
+          }
+        ]
+      }
     }
   ]
   types: [
@@ -119,6 +178,24 @@ export type Triad = {
         fields: [
           {
             name: 'referral'
+            type: 'publicKey'
+          }
+        ]
+      }
+    },
+    {
+      name: 'CreateVaultArgs'
+      type: {
+        kind: 'struct'
+        fields: [
+          {
+            name: 'name'
+            type: {
+              array: ['u8', 32]
+            }
+          },
+          {
+            name: 'token'
             type: 'publicKey'
           }
         ]
@@ -233,6 +310,39 @@ export const IDL: Triad = {
           }
         }
       ]
+    },
+    {
+      name: 'createVault',
+      accounts: [
+        {
+          name: 'payer',
+          isMut: true,
+          isSigner: true
+        },
+        {
+          name: 'authority',
+          isMut: false,
+          isSigner: true
+        },
+        {
+          name: 'vault',
+          isMut: true,
+          isSigner: false
+        },
+        {
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false
+        }
+      ],
+      args: [
+        {
+          name: 'args',
+          type: {
+            defined: 'CreateVaultArgs'
+          }
+        }
+      ]
     }
   ],
   accounts: [
@@ -261,6 +371,32 @@ export const IDL: Triad = {
           }
         ]
       }
+    },
+    {
+      name: 'vault',
+      type: {
+        kind: 'struct',
+        fields: [
+          {
+            name: 'bump',
+            type: 'u8'
+          },
+          {
+            name: 'authority',
+            type: 'publicKey'
+          },
+          {
+            name: 'name',
+            type: {
+              array: ['u8', 32]
+            }
+          },
+          {
+            name: 'token',
+            type: 'publicKey'
+          }
+        ]
+      }
     }
   ],
   types: [
@@ -285,6 +421,24 @@ export const IDL: Triad = {
         fields: [
           {
             name: 'referral',
+            type: 'publicKey'
+          }
+        ]
+      }
+    },
+    {
+      name: 'CreateVaultArgs',
+      type: {
+        kind: 'struct',
+        fields: [
+          {
+            name: 'name',
+            type: {
+              array: ['u8', 32]
+            }
+          },
+          {
+            name: 'token',
             type: 'publicKey'
           }
         ]

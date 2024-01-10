@@ -20,4 +20,8 @@ pub mod triad {
     pub fn add_plan(ctx: Context<AddPlan>, args: AddPlanArgs) -> Result<()> {
         instructions::add_plan(ctx, args)
     }
+
+    pub fn create_vault(ctx: Context<CreateVault>, args: CreateVaultArgs) -> Result<()> {
+        instructions::create_vault(ctx, args)
+    }
 }

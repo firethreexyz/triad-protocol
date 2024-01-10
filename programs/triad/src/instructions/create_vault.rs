@@ -15,11 +15,13 @@ pub struct CreateVault<'info> {
     pub system_program: Program<'info, System>,
 }
 
-pub fn create_vault(ctx: Context<CreateVault>, args: CreateVaultArgs) -> Result<()> {
+pub fn create_vault(ctx: Context<CreateVault>, _args: CreateVaultArgs) -> Result<()> {
     let vault = &mut ctx.accounts.vault;
 
     vault.bump = *ctx.bumps.get("vault").unwrap();
     vault.authority = *ctx.accounts.payer.key;
+    vault.name = _args.name;
+    vault.token = _args.token;
 
     Ok(())
 }

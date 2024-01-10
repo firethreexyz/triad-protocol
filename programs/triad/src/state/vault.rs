@@ -4,11 +4,13 @@ use anchor_lang::prelude::*;
 pub struct Vault {
     pub bump: u8,
     pub authority: Pubkey,
+    pub name: [u8; 32],
+    pub token: Pubkey,
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize)]
 pub struct CreateVaultArgs {
-    pub name: u8,
+    pub name: [u8; 32],
     pub token: Pubkey,
 }
 
