@@ -8,6 +8,8 @@ pub struct Vault {
     pub authority: Pubkey,
     pub name: [u8; 32],
     pub token: Pubkey,
+    pub triad_signer: Pubkey,
+    pub triad_signer_nonce: u8,
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize)]

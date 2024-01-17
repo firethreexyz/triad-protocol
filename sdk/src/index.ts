@@ -37,24 +37,7 @@ export default class TriadClient {
         authority: this.wallet.publicKey,
         user: UserPDA
       })
-      .transaction()
-  }
-
-  public async addPlan(plan: Plan) {
-    const [UserPDA] = PublicKey.findProgramAddressSync(
-      [Buffer.from('user'), this.wallet.publicKey.toBuffer()],
-      this.program.programId
-    )
-
-    return this.program.methods
-      .addPlan({
-        plan
-      })
-      .accounts({
-        payer: this.wallet.publicKey,
-        user: UserPDA
-      })
-      .transaction()
+      .rpc()
   }
 
   public async createVault() {
@@ -73,7 +56,7 @@ export default class TriadClient {
         authority: this.wallet.publicKey,
         vault: VaultPDA
       })
-      .transaction()
+      .rpc()
   }
 
   public async deposit() {}

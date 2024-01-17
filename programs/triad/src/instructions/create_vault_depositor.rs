@@ -8,7 +8,7 @@ pub struct CreateVaultDepositor<'info> {
 
     pub vault: AccountLoader<'info, Vault>,
 
-    #[account(init, payer = payer, space = VaultDepositor::SPACE, seeds = [VaultDepositor::PREFIX_SEED.as_ref(), vault.key().as_ref() ,payer.key.as_ref()], bump)]
+    #[account(init, payer = payer, space = VaultDepositor::SPACE, seeds = [VaultDepositor::PREFIX_SEED.as_ref(), vault.key().as_ref(), payer.key.as_ref()], bump)]
     pub vault_depositor: Account<'info, VaultDepositor>,
 
     pub system_program: Program<'info, System>,
