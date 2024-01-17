@@ -36,39 +36,6 @@ export type Triad = {
       ]
     },
     {
-      name: 'addPlan'
-      accounts: [
-        {
-          name: 'payer'
-          isMut: true
-          isSigner: true
-        },
-        {
-          name: 'authority'
-          isMut: false
-          isSigner: true
-        },
-        {
-          name: 'user'
-          isMut: false
-          isSigner: false
-        },
-        {
-          name: 'systemProgram'
-          isMut: false
-          isSigner: false
-        }
-      ]
-      args: [
-        {
-          name: 'args'
-          type: {
-            defined: 'AddPlanArgs'
-          }
-        }
-      ]
-    },
-    {
       name: 'createVault'
       accounts: [
         {
@@ -84,6 +51,11 @@ export type Triad = {
         {
           name: 'vault'
           isMut: true
+          isSigner: false
+        },
+        {
+          name: 'triadSigner'
+          isMut: false
           isSigner: false
         },
         {
@@ -111,12 +83,6 @@ export type Triad = {
           {
             name: 'bump'
             type: 'u8'
-          },
-          {
-            name: 'plan'
-            type: {
-              defined: 'Plan'
-            }
           },
           {
             name: 'authority'
@@ -163,26 +129,20 @@ export type Triad = {
           {
             name: 'token'
             type: 'publicKey'
+          },
+          {
+            name: 'triadSigner'
+            type: 'publicKey'
+          },
+          {
+            name: 'triadSignerNonce'
+            type: 'u8'
           }
         ]
       }
     }
   ]
   types: [
-    {
-      name: 'AddPlanArgs'
-      type: {
-        kind: 'struct'
-        fields: [
-          {
-            name: 'plan'
-            type: {
-              defined: 'Plan'
-            }
-          }
-        ]
-      }
-    },
     {
       name: 'CreateUserArgs'
       type: {
@@ -209,26 +169,6 @@ export type Triad = {
           {
             name: 'token'
             type: 'publicKey'
-          }
-        ]
-      }
-    },
-    {
-      name: 'Plan'
-      type: {
-        kind: 'enum'
-        variants: [
-          {
-            name: 'Expired'
-          },
-          {
-            name: 'Monthly'
-          },
-          {
-            name: 'Semiannual'
-          },
-          {
-            name: 'Annual'
           }
         ]
       }
@@ -291,39 +231,6 @@ export const IDL: Triad = {
       ]
     },
     {
-      name: 'addPlan',
-      accounts: [
-        {
-          name: 'payer',
-          isMut: true,
-          isSigner: true
-        },
-        {
-          name: 'authority',
-          isMut: false,
-          isSigner: true
-        },
-        {
-          name: 'user',
-          isMut: false,
-          isSigner: false
-        },
-        {
-          name: 'systemProgram',
-          isMut: false,
-          isSigner: false
-        }
-      ],
-      args: [
-        {
-          name: 'args',
-          type: {
-            defined: 'AddPlanArgs'
-          }
-        }
-      ]
-    },
-    {
       name: 'createVault',
       accounts: [
         {
@@ -339,6 +246,11 @@ export const IDL: Triad = {
         {
           name: 'vault',
           isMut: true,
+          isSigner: false
+        },
+        {
+          name: 'triadSigner',
+          isMut: false,
           isSigner: false
         },
         {
@@ -366,12 +278,6 @@ export const IDL: Triad = {
           {
             name: 'bump',
             type: 'u8'
-          },
-          {
-            name: 'plan',
-            type: {
-              defined: 'Plan'
-            }
           },
           {
             name: 'authority',
@@ -418,26 +324,20 @@ export const IDL: Triad = {
           {
             name: 'token',
             type: 'publicKey'
+          },
+          {
+            name: 'triadSigner',
+            type: 'publicKey'
+          },
+          {
+            name: 'triadSignerNonce',
+            type: 'u8'
           }
         ]
       }
     }
   ],
   types: [
-    {
-      name: 'AddPlanArgs',
-      type: {
-        kind: 'struct',
-        fields: [
-          {
-            name: 'plan',
-            type: {
-              defined: 'Plan'
-            }
-          }
-        ]
-      }
-    },
     {
       name: 'CreateUserArgs',
       type: {
@@ -464,26 +364,6 @@ export const IDL: Triad = {
           {
             name: 'token',
             type: 'publicKey'
-          }
-        ]
-      }
-    },
-    {
-      name: 'Plan',
-      type: {
-        kind: 'enum',
-        variants: [
-          {
-            name: 'Expired'
-          },
-          {
-            name: 'Monthly'
-          },
-          {
-            name: 'Semiannual'
-          },
-          {
-            name: 'Annual'
           }
         ]
       }
