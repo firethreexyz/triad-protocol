@@ -130,6 +130,18 @@ export type Triad = {
       }
     },
     {
+      name: 'vaultDepositor'
+      type: {
+        kind: 'struct'
+        fields: [
+          {
+            name: 'bump'
+            type: 'u8'
+          }
+        ]
+      }
+    },
+    {
       name: 'vault'
       type: {
         kind: 'struct'
@@ -368,6 +380,18 @@ export const IDL: Triad = {
           {
             name: 'referral',
             type: 'publicKey'
+          }
+        ]
+      }
+    },
+    {
+      name: 'vaultDepositor',
+      type: {
+        kind: 'struct',
+        fields: [
+          {
+            name: 'bump',
+            type: 'u8'
           }
         ]
       }

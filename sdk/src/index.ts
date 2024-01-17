@@ -3,6 +3,7 @@ import { Wallet } from './types/wallet'
 import { Connection, PublicKey } from '@solana/web3.js'
 import { IDL, Triad } from './types/triad'
 import { encodeName } from './utils/name'
+import { TRIAD_PROGRAM_ID } from './constants/program'
 
 export default class TriadClient {
   program: Program<Triad>
