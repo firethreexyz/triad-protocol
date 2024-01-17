@@ -1,13 +1,12 @@
 {
   "name": "@triadxyz/protocol",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "clean": "rimraf dist",
     "build": "yarn run clean && tsc",
-    "prepublishOnly": "yarn build",
     "docs": "typedoc --excludePrivate --includeVersion --out ./../docs src/*",
     "start": "yarn build && node ./dist/index.js"
   },

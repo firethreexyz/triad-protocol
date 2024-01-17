@@ -5,7 +5,7 @@
     "update-types": "cp target/types/* sdk/src/types && prettier --write sdk/src/types",
     "build": "anchor build && yarn update-types",
     "anchor-tests": "yarn update-types && yarn update-idl && yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*",
-    "publish-sdk": "cd sdk && yarn build && yarn publish"
+    "publish-sdk": "cd sdk && npm run build && npm publish"
   },
   "dependencies": {
     "@coral-xyz/anchor": "^0.28.0"
