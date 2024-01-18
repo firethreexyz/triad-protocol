@@ -74,10 +74,3 @@ export default class TriadClient {
 
   public async withdrawFees() {}
 }
-
-export class Plan {
-  static readonly EXPIRED = { expired: {} }
-  static readonly MONTHLY = { monthly: {} }
-  static readonly SEMIANNUAL = { semiannual: {} }
-  static readonly ANNUAL = { annual: {} }
-}
