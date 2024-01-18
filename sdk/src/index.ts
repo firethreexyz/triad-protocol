@@ -2,7 +2,7 @@ import { AnchorProvider, Program } from '@project-serum/anchor'
 import { Wallet } from './types/wallet'
 import { Connection, PublicKey } from '@solana/web3.js'
 import { IDL, Triad } from './types/triad'
-import { encodeName } from './utils/name'
+import { decodeName, encodeName } from './utils/name'
 import { TRIAD_PROGRAM_ID } from './constants/program'
 
 export default class TriadClient {
@@ -40,16 +40,24 @@ export default class TriadClient {
       .rpc()
   }
 
-  public async createVault() {
+  public async createVault({
+    vault,
+    token
+  }: {
+    vault: string
+    token: PublicKey
+  }) {
+    const vaultName = encodeName(vault)
+
     const [VaultPDA] = PublicKey.findProgramAddressSync(
-      [Buffer.from('vault'), this.wallet.publicKey.toBuffer()],
+      [Buffer.from('vault'), Buffer.from(vaultName)],
       this.program.programId
     )
 
     return this.program.methods
       .createVault({
-        name: encodeName('Vault'),
-        token: new PublicKey('')
+        name: vaultName,
+        token
       })
       .accounts({
         payer: this.wallet.publicKey,
