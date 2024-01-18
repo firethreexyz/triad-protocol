@@ -54,7 +54,8 @@ export default class TriadClient {
       .accounts({
         payer: this.wallet.publicKey,
         authority: this.wallet.publicKey,
-        vault: VaultPDA
+        vault: VaultPDA,
+        triadSigner: this.wallet.publicKey
       })
       .rpc()
   }

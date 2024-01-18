@@ -3,7 +3,7 @@
     "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
     "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check",
     "update-types": "cp target/types/* sdk/src/types && prettier --write sdk/src/types",
-    "build": "anchor build && yarn update-types",
+    "deploy": "anchor build && yarn update-types && anchor deploy",
     "anchor-tests": "yarn update-types && yarn update-idl && yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*",
     "publish-sdk": "cd sdk && npm run build && npm publish"
   },
