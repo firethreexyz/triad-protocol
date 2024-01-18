@@ -14,8 +14,7 @@ pub struct CreateVault<'info> {
     #[account(init, payer = payer, space = Vault::SPACE, seeds = [Vault::PREFIX_SEED.as_ref(), args.name.as_ref()], bump)]
     pub vault: AccountLoader<'info, Vault>,
 
-    /// CHECK: checked in `create_vault`
-    pub triad_signer: AccountInfo<'info>,
+    pub triad_signer: Signer<'info>,
 
     pub system_program: Program<'info, System>,
 }

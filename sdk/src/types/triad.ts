@@ -56,7 +56,7 @@ export type Triad = {
         {
           name: 'triadSigner'
           isMut: false
-          isSigner: false
+          isSigner: true
         },
         {
           name: 'systemProgram'
@@ -251,7 +251,7 @@ export const IDL: Triad = {
         {
           name: 'triadSigner',
           isMut: false,
-          isSigner: false
+          isSigner: true
         },
         {
           name: 'systemProgram',
