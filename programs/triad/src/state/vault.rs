@@ -1,21 +1,18 @@
 use anchor_lang::prelude::*;
 
-#[account(zero_copy(unsafe))]
-#[derive(Default, Eq, PartialEq, Debug)]
-#[repr(C)]
+#[account]
 pub struct Vault {
     pub bump: u8,
     pub authority: Pubkey,
     pub name: [u8; 32],
-    pub token: Pubkey,
     pub triad_signer: Pubkey,
     pub triad_signer_nonce: u8,
+    pub token_account: Pubkey,
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize)]
 pub struct CreateVaultArgs {
     pub name: [u8; 32],
-    pub token: Pubkey,
 }
 
 impl Vault {
@@ -26,4 +23,6 @@ impl Vault {
     pub const SPACE: usize =
         // anchor descriminator + all static variables
         8 + std::mem::size_of::<Self>();
+
+    pub const PREFIX_SEED_VAULT_TOKEN_ACCOUNT: &[u8] = b"vault_token_account";
 }

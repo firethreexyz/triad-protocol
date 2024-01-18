@@ -54,12 +54,27 @@ export type Triad = {
           isSigner: false
         },
         {
+          name: 'payerTokenMint'
+          isMut: false
+          isSigner: false
+        },
+        {
+          name: 'tokenAccount'
+          isMut: true
+          isSigner: false
+        },
+        {
           name: 'triadSigner'
           isMut: false
           isSigner: true
         },
         {
           name: 'systemProgram'
+          isMut: false
+          isSigner: false
+        },
+        {
+          name: 'tokenProgram'
           isMut: false
           isSigner: false
         }
@@ -72,9 +87,102 @@ export type Triad = {
           }
         }
       ]
+    },
+    {
+      name: 'deposit'
+      accounts: [
+        {
+          name: 'authority'
+          isMut: true
+          isSigner: true
+        },
+        {
+          name: 'vault'
+          isMut: false
+          isSigner: false
+        },
+        {
+          name: 'depositor'
+          isMut: true
+          isSigner: false
+        },
+        {
+          name: 'vaultTokenAccount'
+          isMut: true
+          isSigner: false
+        },
+        {
+          name: 'userTokenAccount'
+          isMut: true
+          isSigner: false
+        },
+        {
+          name: 'systemProgram'
+          isMut: false
+          isSigner: false
+        },
+        {
+          name: 'tokenProgram'
+          isMut: false
+          isSigner: false
+        }
+      ]
+      args: [
+        {
+          name: 'amount'
+          type: 'u64'
+        }
+      ]
+    },
+    {
+      name: 'createDepositor'
+      accounts: [
+        {
+          name: 'payer'
+          isMut: true
+          isSigner: true
+        },
+        {
+          name: 'authority'
+          isMut: false
+          isSigner: true
+        },
+        {
+          name: 'vault'
+          isMut: false
+          isSigner: false
+        },
+        {
+          name: 'depositor'
+          isMut: true
+          isSigner: false
+        },
+        {
+          name: 'systemProgram'
+          isMut: false
+          isSigner: false
+        }
+      ]
+      args: []
     }
   ]
   accounts: [
+    {
+      name: 'depositor'
+      type: {
+        kind: 'struct'
+        fields: [
+          {
+            name: 'bump'
+            type: 'u8'
+          },
+          {
+            name: 'authority'
+            type: 'publicKey'
+          }
+        ]
+      }
+    },
     {
       name: 'user'
       type: {
@@ -91,18 +199,6 @@ export type Triad = {
           {
             name: 'referral'
             type: 'publicKey'
-          }
-        ]
-      }
-    },
-    {
-      name: 'vaultDepositor'
-      type: {
-        kind: 'struct'
-        fields: [
-          {
-            name: 'bump'
-            type: 'u8'
           }
         ]
       }
@@ -127,16 +223,16 @@ export type Triad = {
             }
           },
           {
-            name: 'token'
-            type: 'publicKey'
-          },
-          {
             name: 'triadSigner'
             type: 'publicKey'
           },
           {
             name: 'triadSignerNonce'
             type: 'u8'
+          },
+          {
+            name: 'tokenAccount'
+            type: 'publicKey'
           }
         ]
       }
@@ -165,10 +261,6 @@ export type Triad = {
             type: {
               array: ['u8', 32]
             }
-          },
-          {
-            name: 'token'
-            type: 'publicKey'
           }
         ]
       }
@@ -189,6 +281,11 @@ export type Triad = {
       code: 6002
       name: 'InvalidPassType'
       msg: 'Invalid pass type'
+    },
+    {
+      code: 6003
+      name: 'InvalidVaultDepositorAuthority'
+      msg: 'Invalid vault depositor authority'
     }
   ]
 }
@@ -249,12 +346,27 @@ export const IDL: Triad = {
           isSigner: false
         },
         {
+          name: 'payerTokenMint',
+          isMut: false,
+          isSigner: false
+        },
+        {
+          name: 'tokenAccount',
+          isMut: true,
+          isSigner: false
+        },
+        {
           name: 'triadSigner',
           isMut: false,
           isSigner: true
         },
         {
           name: 'systemProgram',
+          isMut: false,
+          isSigner: false
+        },
+        {
+          name: 'tokenProgram',
           isMut: false,
           isSigner: false
         }
@@ -267,9 +379,102 @@ export const IDL: Triad = {
           }
         }
       ]
+    },
+    {
+      name: 'deposit',
+      accounts: [
+        {
+          name: 'authority',
+          isMut: true,
+          isSigner: true
+        },
+        {
+          name: 'vault',
+          isMut: false,
+          isSigner: false
+        },
+        {
+          name: 'depositor',
+          isMut: true,
+          isSigner: false
+        },
+        {
+          name: 'vaultTokenAccount',
+          isMut: true,
+          isSigner: false
+        },
+        {
+          name: 'userTokenAccount',
+          isMut: true,
+          isSigner: false
+        },
+        {
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false
+        },
+        {
+          name: 'tokenProgram',
+          isMut: false,
+          isSigner: false
+        }
+      ],
+      args: [
+        {
+          name: 'amount',
+          type: 'u64'
+        }
+      ]
+    },
+    {
+      name: 'createDepositor',
+      accounts: [
+        {
+          name: 'payer',
+          isMut: true,
+          isSigner: true
+        },
+        {
+          name: 'authority',
+          isMut: false,
+          isSigner: true
+        },
+        {
+          name: 'vault',
+          isMut: false,
+          isSigner: false
+        },
+        {
+          name: 'depositor',
+          isMut: true,
+          isSigner: false
+        },
+        {
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false
+        }
+      ],
+      args: []
     }
   ],
   accounts: [
+    {
+      name: 'depositor',
+      type: {
+        kind: 'struct',
+        fields: [
+          {
+            name: 'bump',
+            type: 'u8'
+          },
+          {
+            name: 'authority',
+            type: 'publicKey'
+          }
+        ]
+      }
+    },
     {
       name: 'user',
       type: {
@@ -286,18 +491,6 @@ export const IDL: Triad = {
           {
             name: 'referral',
             type: 'publicKey'
-          }
-        ]
-      }
-    },
-    {
-      name: 'vaultDepositor',
-      type: {
-        kind: 'struct',
-        fields: [
-          {
-            name: 'bump',
-            type: 'u8'
           }
         ]
       }
@@ -322,16 +515,16 @@ export const IDL: Triad = {
             }
           },
           {
-            name: 'token',
-            type: 'publicKey'
-          },
-          {
             name: 'triadSigner',
             type: 'publicKey'
           },
           {
             name: 'triadSignerNonce',
             type: 'u8'
+          },
+          {
+            name: 'tokenAccount',
+            type: 'publicKey'
           }
         ]
       }
@@ -360,10 +553,6 @@ export const IDL: Triad = {
             type: {
               array: ['u8', 32]
             }
-          },
-          {
-            name: 'token',
-            type: 'publicKey'
           }
         ]
       }
@@ -384,6 +573,11 @@ export const IDL: Triad = {
       code: 6002,
       name: 'InvalidPassType',
       msg: 'Invalid pass type'
+    },
+    {
+      code: 6003,
+      name: 'InvalidVaultDepositorAuthority',
+      msg: 'Invalid vault depositor authority'
     }
   ]
 }

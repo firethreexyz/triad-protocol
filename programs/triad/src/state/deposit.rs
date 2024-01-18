@@ -1,13 +1,14 @@
 use anchor_lang::prelude::*;
 
 #[account]
-pub struct VaultDepositor {
+pub struct Depositor {
     pub bump: u8,
+    pub authority: Pubkey,
 }
 
-impl VaultDepositor {
+impl Depositor {
     /// static prefix seed string used to derive the PDAs
-    pub const PREFIX_SEED: &[u8] = b"vault-depositor";
+    pub const PREFIX_SEED: &[u8] = b"depositor";
 
     /// total on-chain space needed to allocate the account
     pub const SPACE: usize =

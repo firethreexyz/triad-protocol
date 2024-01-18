@@ -10,4 +10,7 @@ pub enum GenericError {
 
     #[msg("Invalid pass type")]
     InvalidPassType,
+
+    #[msg("Invalid vault depositor authority")]
+    InvalidVaultDepositorAuthority,
 }
