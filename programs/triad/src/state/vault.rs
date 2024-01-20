@@ -5,8 +5,6 @@ pub struct Vault {
     pub bump: u8,
     pub authority: Pubkey,
     pub name: [u8; 32],
-    pub triad_signer: Pubkey,
-    pub triad_signer_nonce: u8,
     pub token_account: Pubkey,
 }
 

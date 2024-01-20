@@ -1,24 +1,31 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Token, TokenAccount, Transfer};
 
-use crate::constraints::is_authority_for_depositor;
+use crate::constraints::{
+    is_authority_for_depositor, is_authority_for_user, is_token_mint_for_vault,
+};
 use crate::cpi::TokenTransferCPI;
 use crate::errors::GenericError;
-use crate::state::{Depositor, Vault};
+use crate::state::{Depositor, User, Vault};
 
 #[derive(Accounts)]
 #[instruction(amount: u64)]
 pub struct Deposit<'info> {
     #[account(mut)]
-    pub authority: Signer<'info>,
+    pub signer: Signer<'info>,
 
     pub vault: Account<'info, Vault>,
 
     #[account(
+        constraint = is_authority_for_user(&user, &signer)?,
+    )]
+    pub user: Account<'info, User>,
+
+    #[account(
         mut,
-        seeds = [Depositor::PREFIX_SEED.as_ref(), vault.key().as_ref(), authority.key.as_ref()],
+        seeds = [Depositor::PREFIX_SEED.as_ref(), vault.key().as_ref(), user.key().as_ref()],
         bump,
-        constraint = is_authority_for_depositor(&depositor, &authority)?,
+        constraint = is_authority_for_depositor(&depositor, &signer)?,
     )]
     pub depositor: Account<'info, Depositor>,
 
@@ -27,14 +34,14 @@ pub struct Deposit<'info> {
         seeds = [Vault::PREFIX_SEED_VAULT_TOKEN_ACCOUNT.as_ref(), vault.key().as_ref()],
         bump,
     )]
-    pub vault_token_account: Box<Account<'info, TokenAccount>>,
+    pub vault_token_account: Account<'info, TokenAccount>,
 
     #[account(
         mut,
-        token::authority = authority,
+        token::authority = user.authority,
         token::mint = vault_token_account.mint
     )]
-    pub user_token_account: Box<Account<'info, TokenAccount>>,
+    pub user_token_account: Account<'info, TokenAccount>,
 
     pub system_program: Program<'info, System>,
 
@@ -44,8 +51,15 @@ pub struct Deposit<'info> {
 pub fn deposit<'info>(ctx: Context<'_, '_, '_, 'info, Deposit<'info>>, amount: u64) -> Result<()> {
     let depositor = &mut ctx.accounts.depositor;
 
-    if depositor.authority != *ctx.accounts.authority.key {
+    if depositor.authority != *ctx.accounts.signer.key {
         return Err(GenericError::InvalidAccount.into());
+    }
+
+    if !is_token_mint_for_vault(
+        &ctx.accounts.vault_token_account.mint,
+        &ctx.accounts.user_token_account.mint,
+    )? {
+        return Err(GenericError::InvalidMintAddress.into());
     }
 
     ctx.token_transfer(amount)?;
@@ -58,7 +72,7 @@ impl<'info> TokenTransferCPI for Context<'_, '_, '_, 'info, Deposit<'info>> {
         let cpi_accounts = Transfer {
             from: self.accounts.user_token_account.to_account_info().clone(),
             to: self.accounts.vault_token_account.to_account_info().clone(),
-            authority: self.accounts.authority.to_account_info().clone(),
+            authority: self.accounts.signer.to_account_info().clone(),
         };
         let token_program = self.accounts.token_program.to_account_info().clone();
         let cpi_context = CpiContext::new(token_program, cpi_accounts);
@@ -72,13 +86,16 @@ impl<'info> TokenTransferCPI for Context<'_, '_, '_, 'info, Deposit<'info>> {
 #[derive(Accounts)]
 pub struct CreateDepositor<'info> {
     #[account(mut)]
-    pub payer: Signer<'info>,
+    pub signer: Signer<'info>,
 
-    pub authority: Signer<'info>,
+    #[account(
+        constraint = is_authority_for_user(&user, &signer)?,
+    )]
+    pub user: Account<'info, User>,
 
     pub vault: Account<'info, Vault>,
 
-    #[account(init, payer = payer, space = Depositor::SPACE, seeds = [Depositor::PREFIX_SEED.as_ref(), vault.key().as_ref(), authority.key.as_ref()], bump)]
+    #[account(init, payer = signer, space = Depositor::SPACE, seeds = [Depositor::PREFIX_SEED.as_ref(), vault.key().as_ref(), user.key().as_ref()], bump)]
     pub depositor: Account<'info, Depositor>,
 
     pub system_program: Program<'info, System>,
@@ -87,8 +104,8 @@ pub struct CreateDepositor<'info> {
 pub fn create_depositor(ctx: Context<CreateDepositor>) -> Result<()> {
     let depositor = &mut ctx.accounts.depositor;
 
-    depositor.bump = *ctx.bumps.get("vault-depositor").unwrap();
-    depositor.authority = *ctx.accounts.authority.key;
+    depositor.bump = *ctx.bumps.get("depositor").unwrap();
+    depositor.authority = *ctx.accounts.signer.key;
 
     Ok(())
 }

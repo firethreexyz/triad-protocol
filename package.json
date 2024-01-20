@@ -7,9 +7,7 @@
     "anchor-tests": "yarn update-types && yarn update-idl && yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*",
     "publish-sdk": "cd sdk && npm run build && npm publish"
   },
-  "dependencies": {
-    "@coral-xyz/anchor": "^0.28.0"
-  },
+  "dependencies": {},
   "license": "MIT",
   "devDependencies": {
     "chai": "^4.3.4",

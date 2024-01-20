@@ -13,4 +13,10 @@ pub enum GenericError {
 
     #[msg("Invalid vault depositor authority")]
     InvalidVaultDepositorAuthority,
+
+    #[msg("Invalid owner authority")]
+    InvalidOwnerAuthority,
+
+    #[msg("Invalid mint address")]
+    InvalidMintAddress,
 }
