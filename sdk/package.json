@@ -1,6 +1,6 @@
 {
   "name": "@triadxyz/protocol",
-  "version": "0.0.9-beta.6",
+  "version": "0.0.10",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -22,11 +22,15 @@
   "keywords": [
     "solana"
   ],
-  "author": "Atom Meta Space",
+  "license": "MIT",
+  "author": "@dannpl",
   "dependencies": {
-    "@project-serum/anchor": "0.26.0",
+    "@coral-xyz/anchor": "0.29.0",
+    "@solana/spl-token": "^0.3.11",
     "axios": "^1.5.1",
+    "bn.js": "^5.2.1",
     "bs58": "5.0.0",
+    "dotenv": "^16.3.1",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

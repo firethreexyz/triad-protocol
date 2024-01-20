@@ -6,13 +6,8 @@ export type Triad = {
       name: 'createUser'
       accounts: [
         {
-          name: 'payer'
+          name: 'signer'
           isMut: true
-          isSigner: true
-        },
-        {
-          name: 'authority'
-          isMut: false
           isSigner: true
         },
         {
@@ -39,13 +34,8 @@ export type Triad = {
       name: 'createVault'
       accounts: [
         {
-          name: 'payer'
+          name: 'signer'
           isMut: true
-          isSigner: true
-        },
-        {
-          name: 'authority'
-          isMut: false
           isSigner: true
         },
         {
@@ -92,12 +82,17 @@ export type Triad = {
       name: 'deposit'
       accounts: [
         {
-          name: 'authority'
+          name: 'signer'
           isMut: true
           isSigner: true
         },
         {
           name: 'vault'
+          isMut: false
+          isSigner: false
+        },
+        {
+          name: 'user'
           isMut: false
           isSigner: false
         },
@@ -138,14 +133,14 @@ export type Triad = {
       name: 'createDepositor'
       accounts: [
         {
-          name: 'payer'
+          name: 'signer'
           isMut: true
           isSigner: true
         },
         {
-          name: 'authority'
+          name: 'user'
           isMut: false
-          isSigner: true
+          isSigner: false
         },
         {
           name: 'vault'
@@ -223,14 +218,6 @@ export type Triad = {
             }
           },
           {
-            name: 'triadSigner'
-            type: 'publicKey'
-          },
-          {
-            name: 'triadSignerNonce'
-            type: 'u8'
-          },
-          {
             name: 'tokenAccount'
             type: 'publicKey'
           }
@@ -286,6 +273,16 @@ export type Triad = {
       code: 6003
       name: 'InvalidVaultDepositorAuthority'
       msg: 'Invalid vault depositor authority'
+    },
+    {
+      code: 6004
+      name: 'InvalidOwnerAuthority'
+      msg: 'Invalid owner authority'
+    },
+    {
+      code: 6005
+      name: 'InvalidMintAddress'
+      msg: 'Invalid mint address'
     }
   ]
 }
@@ -298,13 +295,8 @@ export const IDL: Triad = {
       name: 'createUser',
       accounts: [
         {
-          name: 'payer',
+          name: 'signer',
           isMut: true,
-          isSigner: true
-        },
-        {
-          name: 'authority',
-          isMut: false,
           isSigner: true
         },
         {
@@ -331,13 +323,8 @@ export const IDL: Triad = {
       name: 'createVault',
       accounts: [
         {
-          name: 'payer',
+          name: 'signer',
           isMut: true,
-          isSigner: true
-        },
-        {
-          name: 'authority',
-          isMut: false,
           isSigner: true
         },
         {
@@ -384,12 +371,17 @@ export const IDL: Triad = {
       name: 'deposit',
       accounts: [
         {
-          name: 'authority',
+          name: 'signer',
           isMut: true,
           isSigner: true
         },
         {
           name: 'vault',
+          isMut: false,
+          isSigner: false
+        },
+        {
+          name: 'user',
           isMut: false,
           isSigner: false
         },
@@ -430,14 +422,14 @@ export const IDL: Triad = {
       name: 'createDepositor',
       accounts: [
         {
-          name: 'payer',
+          name: 'signer',
           isMut: true,
           isSigner: true
         },
         {
-          name: 'authority',
+          name: 'user',
           isMut: false,
-          isSigner: true
+          isSigner: false
         },
         {
           name: 'vault',
@@ -515,14 +507,6 @@ export const IDL: Triad = {
             }
           },
           {
-            name: 'triadSigner',
-            type: 'publicKey'
-          },
-          {
-            name: 'triadSignerNonce',
-            type: 'u8'
-          },
-          {
             name: 'tokenAccount',
             type: 'publicKey'
           }
@@ -578,6 +562,16 @@ export const IDL: Triad = {
       code: 6003,
       name: 'InvalidVaultDepositorAuthority',
       msg: 'Invalid vault depositor authority'
+    },
+    {
+      code: 6004,
+      name: 'InvalidOwnerAuthority',
+      msg: 'Invalid owner authority'
+    },
+    {
+      code: 6005,
+      name: 'InvalidMintAddress',
+      msg: 'Invalid mint address'
     }
   ]
 }

@@ -1,9 +1,24 @@
-import { AnchorProvider, Program } from '@project-serum/anchor'
-import { Wallet } from './types/wallet'
-import { Connection, PublicKey } from '@solana/web3.js'
+import {
+  Connection,
+  PublicKey,
+  TransactionInstruction,
+  VersionedTransaction,
+  TransactionMessage
+} from '@solana/web3.js'
 import { IDL, Triad } from './types/triad'
+import { getAssociatedTokenAddress } from '@solana/spl-token'
 import { encodeName } from './utils/name'
 import { TRIAD_PROGRAM_ID } from './constants/program'
+import { AnchorProvider, Program, Wallet } from '@coral-xyz/anchor'
+import 'dotenv/config'
+import { convertSecretKeyToKeypair } from './utils/convertSecretKeyToKeypair'
+import {
+  getDepositorAddressSync,
+  getTokenVaultAddressSync,
+  getUserAddressSync,
+  getVaultAddressSync
+} from './utils/addresses'
+import { BN } from 'bn.js'
 
 export default class TriadClient {
   program: Program<Triad>
@@ -22,10 +37,14 @@ export default class TriadClient {
     this.program = new Program<Triad>(IDL, TRIAD_PROGRAM_ID, this.provider)
   }
 
+  /**
+   * Create a new user
+   *  @param referral - The user's referral
+   */
   public async createUser({ referral }: { referral: PublicKey }) {
-    const [UserPDA] = PublicKey.findProgramAddressSync(
-      [Buffer.from('user'), this.wallet.publicKey.toBuffer()],
-      this.program.programId
+    const UserPDA = getUserAddressSync(
+      this.program.programId,
+      this.wallet.publicKey
     )
 
     return this.program.methods
@@ -33,25 +52,24 @@ export default class TriadClient {
         referral
       })
       .accounts({
-        payer: this.wallet.publicKey,
-        authority: this.wallet.publicKey,
+        signer: this.wallet.publicKey,
         user: UserPDA
       })
       .rpc()
   }
 
-  public async createVault({
-    vault,
-    token
-  }: {
-    vault: string
-    token: PublicKey
-  }) {
-    const vaultName = encodeName(vault)
+  /**
+   * Create a new vault
+   *  @param name - The vault's name
+   *  @param mint - Token mint for the vault (e.g. USDC)
+   */
+  public async createVault({ name, mint }: { name: string; mint: PublicKey }) {
+    const vaultName = encodeName(name)
 
-    const [VaultPDA] = PublicKey.findProgramAddressSync(
-      [Buffer.from('vault'), Buffer.from(vaultName)],
-      this.program.programId
+    const VaultPDA = getVaultAddressSync(this.program.programId, vaultName)
+    const TokenAccountPDA = getTokenVaultAddressSync(
+      this.program.programId,
+      VaultPDA
     )
 
     return this.program.methods
@@ -59,16 +77,111 @@ export default class TriadClient {
         name: vaultName
       })
       .accounts({
-        payer: this.wallet.publicKey,
-        authority: this.wallet.publicKey,
-        vault: VaultPDA,
+        signer: this.wallet.publicKey,
         triadSigner: this.wallet.publicKey,
-        tokenAccount: token
+        vault: VaultPDA,
+        tokenAccount: TokenAccountPDA,
+        payerTokenMint: mint
       })
       .rpc()
   }
 
-  public async deposit() {}
+  /**
+   * Create a new vault
+   *  @param vault - The vault's name
+   *  @param amount - The amount to deposit
+   *  @param mint - Token mint for the vault (e.g. USDC)
+   */
+  public async deposit({
+    vault,
+    amount,
+    mint
+  }: {
+    vault: string
+    amount: string
+    mint: PublicKey
+  }) {
+    const vaultName = encodeName(vault)
+
+    const VaultPDA = getVaultAddressSync(this.program.programId, vaultName)
+
+    let vaultData = null
+    try {
+      vaultData = await this.program.account.vault.fetch(VaultPDA)
+    } catch {
+      throw new Error('Vault does not exist')
+    }
+
+    const UserPDA = getUserAddressSync(
+      this.program.programId,
+      this.wallet.publicKey
+    )
+
+    const DepositorPDA = getDepositorAddressSync(
+      this.program.programId,
+      VaultPDA,
+      UserPDA
+    )
+
+    let hasDepositor = true
+    try {
+      await this.program.account.depositor.fetch(DepositorPDA)
+    } catch {
+      hasDepositor = false
+    }
+
+    let ix: TransactionInstruction[] = []
+
+    if (!hasDepositor) {
+      const depositorIx = await this.program.methods
+        .createDepositor()
+        .accounts({
+          vault: VaultPDA,
+          depositor: DepositorPDA,
+          user: UserPDA
+        })
+        .instruction()
+
+      ix.push(depositorIx)
+    }
+
+    const VaultTokenAccountPDA = getTokenVaultAddressSync(
+      this.program.programId,
+      VaultPDA
+    )
+
+    const userTokenAccount = await getAssociatedTokenAddress(
+      mint,
+      this.wallet.publicKey
+    )
+
+    const depositIx = await this.program.methods
+      .deposit(new BN(amount))
+      .accounts({
+        depositor: DepositorPDA,
+        vault: VaultPDA,
+        user: UserPDA,
+        vaultTokenAccount: VaultTokenAccountPDA,
+        userTokenAccount: userTokenAccount
+      })
+      .instruction()
+
+    ix.push(depositIx)
+
+    const { blockhash } = await this.connection.getLatestBlockhash()
+
+    const message = new TransactionMessage({
+      payerKey: this.wallet.publicKey,
+      recentBlockhash: blockhash,
+      instructions: ix
+    }).compileToV0Message()
+
+    const transaction = new VersionedTransaction(message)
+
+    await this.wallet.signTransaction(transaction)
+
+    return this.connection.sendRawTransaction(transaction.serialize())
+  }
 
   public async withdraw() {}
 

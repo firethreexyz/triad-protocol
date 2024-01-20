@@ -1,10 +1,4 @@
-const MAX_NAME_LENGTH = 32
-
 export const encodeName = (name: string): number[] => {
-  if (name.length > MAX_NAME_LENGTH) {
-    throw Error(`Name (${name}) longer than 32 characters`)
-  }
-
   const buffer = Buffer.alloc(32)
   buffer.fill(name)
   buffer.fill(' ', name.length)
