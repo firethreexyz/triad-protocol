@@ -10,8 +10,6 @@ import { getAssociatedTokenAddress } from '@solana/spl-token'
 import { encodeName } from './utils/name'
 import { TRIAD_PROGRAM_ID } from './constants/program'
 import { AnchorProvider, Program, Wallet } from '@coral-xyz/anchor'
-import 'dotenv/config'
-import { convertSecretKeyToKeypair } from './utils/convertSecretKeyToKeypair'
 import {
   getDepositorAddressSync,
   getTokenVaultAddressSync,
