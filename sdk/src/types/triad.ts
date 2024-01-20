@@ -174,6 +174,30 @@ export type Triad = {
           {
             name: 'authority'
             type: 'publicKey'
+          },
+          {
+            name: 'vault'
+            type: 'publicKey'
+          },
+          {
+            name: 'totalDeposit'
+            type: 'u64'
+          },
+          {
+            name: 'totalWithdrawal'
+            type: 'u64'
+          },
+          {
+            name: 'netDeposit'
+            type: 'i64'
+          },
+          {
+            name: 'lpShares'
+            type: 'u64'
+          },
+          {
+            name: 'user'
+            type: 'publicKey'
           }
         ]
       }
@@ -462,6 +486,30 @@ export const IDL: Triad = {
           },
           {
             name: 'authority',
+            type: 'publicKey'
+          },
+          {
+            name: 'vault',
+            type: 'publicKey'
+          },
+          {
+            name: 'totalDeposit',
+            type: 'u64'
+          },
+          {
+            name: 'totalWithdrawal',
+            type: 'u64'
+          },
+          {
+            name: 'netDeposit',
+            type: 'i64'
+          },
+          {
+            name: 'lpShares',
+            type: 'u64'
+          },
+          {
+            name: 'user',
             type: 'publicKey'
           }
         ]
