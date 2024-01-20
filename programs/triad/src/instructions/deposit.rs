@@ -105,7 +105,13 @@ pub fn create_depositor(ctx: Context<CreateDepositor>) -> Result<()> {
     let depositor = &mut ctx.accounts.depositor;
 
     depositor.bump = *ctx.bumps.get("depositor").unwrap();
-    depositor.authority = *ctx.accounts.signer.key;
+    depositor.authority = ctx.accounts.signer.key();
+    depositor.vault = ctx.accounts.vault.key();
+    depositor.user = ctx.accounts.user.key();
+    depositor.total_deposit = 0;
+    depositor.total_withdrawal = 0;
+    depositor.net_deposit = 0;
+    depositor.lp_shares = 0;
 
     Ok(())
 }

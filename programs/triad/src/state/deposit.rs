@@ -4,6 +4,12 @@ use anchor_lang::prelude::*;
 pub struct Depositor {
     pub bump: u8,
     pub authority: Pubkey,
+    pub vault: Pubkey,
+    pub total_deposit: u64,
+    pub total_withdrawal: u64,
+    pub net_deposit: i64,
+    pub lp_shares: u64,
+    pub user: Pubkey,
 }
 
 impl Depositor {
