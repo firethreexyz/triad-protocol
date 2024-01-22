@@ -16,7 +16,7 @@ pub struct Deposit<'info> {
 
     #[account(
         mut,
-        seeds = [Depositor::PREFIX_SEED.as_ref(), vault.key().as_ref(), signer.key().as_ref()],
+        seeds = [Depositor::PREFIX_SEED.as_ref(), vault.key().as_ref(), signer.key.as_ref()],
         bump,
         constraint = is_authority_for_depositor(&depositor, &signer)?,
     )]

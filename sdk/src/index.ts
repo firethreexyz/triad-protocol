@@ -93,13 +93,6 @@ export default class TriadClient {
 
     const VaultPDA = getVaultAddressSync(this.program.programId, vaultName)
 
-    let vaultData = null
-    try {
-      vaultData = await this.program.account.vault.fetch(VaultPDA)
-    } catch {
-      throw new Error('Vault does not exist')
-    }
-
     const DepositorPDA = getDepositorAddressSync(
       this.program.programId,
       VaultPDA,
@@ -132,7 +125,7 @@ export default class TriadClient {
       VaultPDA
     )
 
-    const depositorTokenAccount = await getAssociatedTokenAddress(
+    const userTokenAccount = await getAssociatedTokenAddress(
       mint,
       this.wallet.publicKey
     )
@@ -143,7 +136,7 @@ export default class TriadClient {
         depositor: DepositorPDA,
         vault: VaultPDA,
         vaultTokenAccount: VaultTokenAccountPDA,
-        userTokenAccount: depositorTokenAccount
+        userTokenAccount
       })
       .instruction()
 
