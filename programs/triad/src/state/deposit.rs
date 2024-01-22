@@ -9,7 +9,6 @@ pub struct Depositor {
     pub total_withdrawal: u64,
     pub net_deposit: i64,
     pub lp_shares: u64,
-    pub user: Pubkey,
 }
 
 impl Depositor {

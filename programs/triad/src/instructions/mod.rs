@@ -1,8 +1,6 @@
-mod create_user;
 mod create_vault;
 mod deposit;
 
-pub use create_user::*;
 pub use create_vault::*;
 pub use deposit::*;
 

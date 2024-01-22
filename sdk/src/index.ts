@@ -7,7 +7,7 @@ import {
 } from '@solana/web3.js'
 import { IDL, Triad } from './types/triad'
 import { getAssociatedTokenAddress } from '@solana/spl-token'
-import { encodeName } from './utils/name'
+import { decodeName, encodeName } from './utils/name'
 import { TRIAD_PROGRAM_ID } from './constants/program'
 import { AnchorProvider, Program, Wallet } from '@coral-xyz/anchor'
 import {
@@ -36,27 +36,6 @@ export default class TriadClient {
   }
 
   /**
-   * Create a new user
-   *  @param referral - The user's referral
-   */
-  public async createUser({ referral }: { referral: PublicKey }) {
-    const UserPDA = getUserAddressSync(
-      this.program.programId,
-      this.wallet.publicKey
-    )
-
-    return this.program.methods
-      .createUser({
-        referral
-      })
-      .accounts({
-        signer: this.wallet.publicKey,
-        user: UserPDA
-      })
-      .rpc()
-  }
-
-  /**
    * Create a new vault
    *  @param name - The vault's name
    *  @param mint - Token mint for the vault (e.g. USDC)
@@ -82,6 +61,18 @@ export default class TriadClient {
         payerTokenMint: mint
       })
       .rpc()
+  }
+
+  /**
+   * Get all vaults
+   */
+  async getVaults() {
+    const vaults = await this.program.account.vault.all()
+
+    return vaults.map((vault) => ({
+      name: decodeName(vault.account.name),
+      tokenAccount: vault.account.tokenAccount
+    }))
   }
 
   /**
@@ -135,8 +126,7 @@ export default class TriadClient {
         .createDepositor()
         .accounts({
           vault: VaultPDA,
-          depositor: DepositorPDA,
-          user: UserPDA
+          depositor: DepositorPDA
         })
         .instruction()
 
@@ -148,7 +138,7 @@ export default class TriadClient {
       VaultPDA
     )
 
-    const userTokenAccount = await getAssociatedTokenAddress(
+    const depositorTokenAccount = await getAssociatedTokenAddress(
       mint,
       this.wallet.publicKey
     )
@@ -158,9 +148,8 @@ export default class TriadClient {
       .accounts({
         depositor: DepositorPDA,
         vault: VaultPDA,
-        user: UserPDA,
         vaultTokenAccount: VaultTokenAccountPDA,
-        userTokenAccount: userTokenAccount
+        userTokenAccount: depositorTokenAccount
       })
       .instruction()
 

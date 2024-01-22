@@ -1,12 +1,10 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Token, TokenAccount, Transfer};
 
-use crate::constraints::{
-    is_authority_for_depositor, is_authority_for_user, is_token_mint_for_vault,
-};
+use crate::constraints::{is_authority_for_depositor, is_token_mint_for_vault};
 use crate::cpi::TokenTransferCPI;
 use crate::errors::GenericError;
-use crate::state::{Depositor, User, Vault};
+use crate::state::{Depositor, Vault};
 
 #[derive(Accounts)]
 #[instruction(amount: u64)]
@@ -17,13 +15,8 @@ pub struct Deposit<'info> {
     pub vault: Account<'info, Vault>,
 
     #[account(
-        constraint = is_authority_for_user(&user, &signer)?,
-    )]
-    pub user: Account<'info, User>,
-
-    #[account(
         mut,
-        seeds = [Depositor::PREFIX_SEED.as_ref(), vault.key().as_ref(), user.key().as_ref()],
+        seeds = [Depositor::PREFIX_SEED.as_ref(), vault.key().as_ref(), signer.key().as_ref()],
         bump,
         constraint = is_authority_for_depositor(&depositor, &signer)?,
     )]
@@ -38,7 +31,7 @@ pub struct Deposit<'info> {
 
     #[account(
         mut,
-        token::authority = user.authority,
+        token::authority = depositor.authority,
         token::mint = vault_token_account.mint
     )]
     pub user_token_account: Account<'info, TokenAccount>,
@@ -88,14 +81,9 @@ pub struct CreateDepositor<'info> {
     #[account(mut)]
     pub signer: Signer<'info>,
 
-    #[account(
-        constraint = is_authority_for_user(&user, &signer)?,
-    )]
-    pub user: Account<'info, User>,
-
     pub vault: Account<'info, Vault>,
 
-    #[account(init, payer = signer, space = Depositor::SPACE, seeds = [Depositor::PREFIX_SEED.as_ref(), vault.key().as_ref(), user.key().as_ref()], bump)]
+    #[account(init, payer = signer, space = Depositor::SPACE, seeds = [Depositor::PREFIX_SEED.as_ref(), vault.key().as_ref(), signer.key().as_ref()], bump)]
     pub depositor: Account<'info, Depositor>,
 
     pub system_program: Program<'info, System>,
@@ -107,7 +95,6 @@ pub fn create_depositor(ctx: Context<CreateDepositor>) -> Result<()> {
     depositor.bump = *ctx.bumps.get("depositor").unwrap();
     depositor.authority = ctx.accounts.signer.key();
     depositor.vault = ctx.accounts.vault.key();
-    depositor.user = ctx.accounts.user.key();
     depositor.total_deposit = 0;
     depositor.total_withdrawal = 0;
     depositor.net_deposit = 0;

@@ -3,34 +3,6 @@ export type Triad = {
   name: 'triad'
   instructions: [
     {
-      name: 'createUser'
-      accounts: [
-        {
-          name: 'signer'
-          isMut: true
-          isSigner: true
-        },
-        {
-          name: 'user'
-          isMut: true
-          isSigner: false
-        },
-        {
-          name: 'systemProgram'
-          isMut: false
-          isSigner: false
-        }
-      ]
-      args: [
-        {
-          name: 'args'
-          type: {
-            defined: 'CreateUserArgs'
-          }
-        }
-      ]
-    },
-    {
       name: 'createVault'
       accounts: [
         {
@@ -92,11 +64,6 @@ export type Triad = {
           isSigner: false
         },
         {
-          name: 'user'
-          isMut: false
-          isSigner: false
-        },
-        {
           name: 'depositor'
           isMut: true
           isSigner: false
@@ -136,11 +103,6 @@ export type Triad = {
           name: 'signer'
           isMut: true
           isSigner: true
-        },
-        {
-          name: 'user'
-          isMut: false
-          isSigner: false
         },
         {
           name: 'vault'
@@ -194,30 +156,6 @@ export type Triad = {
           {
             name: 'lpShares'
             type: 'u64'
-          },
-          {
-            name: 'user'
-            type: 'publicKey'
-          }
-        ]
-      }
-    },
-    {
-      name: 'user'
-      type: {
-        kind: 'struct'
-        fields: [
-          {
-            name: 'bump'
-            type: 'u8'
-          },
-          {
-            name: 'authority'
-            type: 'publicKey'
-          },
-          {
-            name: 'referral'
-            type: 'publicKey'
           }
         ]
       }
@@ -250,18 +188,6 @@ export type Triad = {
     }
   ]
   types: [
-    {
-      name: 'CreateUserArgs'
-      type: {
-        kind: 'struct'
-        fields: [
-          {
-            name: 'referral'
-            type: 'publicKey'
-          }
-        ]
-      }
-    },
     {
       name: 'CreateVaultArgs'
       type: {
@@ -315,34 +241,6 @@ export const IDL: Triad = {
   version: '0.1.0',
   name: 'triad',
   instructions: [
-    {
-      name: 'createUser',
-      accounts: [
-        {
-          name: 'signer',
-          isMut: true,
-          isSigner: true
-        },
-        {
-          name: 'user',
-          isMut: true,
-          isSigner: false
-        },
-        {
-          name: 'systemProgram',
-          isMut: false,
-          isSigner: false
-        }
-      ],
-      args: [
-        {
-          name: 'args',
-          type: {
-            defined: 'CreateUserArgs'
-          }
-        }
-      ]
-    },
     {
       name: 'createVault',
       accounts: [
@@ -405,11 +303,6 @@ export const IDL: Triad = {
           isSigner: false
         },
         {
-          name: 'user',
-          isMut: false,
-          isSigner: false
-        },
-        {
           name: 'depositor',
           isMut: true,
           isSigner: false
@@ -449,11 +342,6 @@ export const IDL: Triad = {
           name: 'signer',
           isMut: true,
           isSigner: true
-        },
-        {
-          name: 'user',
-          isMut: false,
-          isSigner: false
         },
         {
           name: 'vault',
@@ -507,30 +395,6 @@ export const IDL: Triad = {
           {
             name: 'lpShares',
             type: 'u64'
-          },
-          {
-            name: 'user',
-            type: 'publicKey'
-          }
-        ]
-      }
-    },
-    {
-      name: 'user',
-      type: {
-        kind: 'struct',
-        fields: [
-          {
-            name: 'bump',
-            type: 'u8'
-          },
-          {
-            name: 'authority',
-            type: 'publicKey'
-          },
-          {
-            name: 'referral',
-            type: 'publicKey'
           }
         ]
       }
@@ -563,18 +427,6 @@ export const IDL: Triad = {
     }
   ],
   types: [
-    {
-      name: 'CreateUserArgs',
-      type: {
-        kind: 'struct',
-        fields: [
-          {
-            name: 'referral',
-            type: 'publicKey'
-          }
-        ]
-      }
-    },
     {
       name: 'CreateVaultArgs',
       type: {
