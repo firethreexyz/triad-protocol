@@ -1,16 +1,6 @@
 import { PublicKey } from '@solana/web3.js'
 import * as anchor from '@coral-xyz/anchor'
 
-export function getUserAddressSync(
-  programId: PublicKey,
-  user: PublicKey
-): PublicKey {
-  return PublicKey.findProgramAddressSync(
-    [Buffer.from(anchor.utils.bytes.utf8.encode('user')), user.toBuffer()],
-    programId
-  )[0]
-}
-
 export function getVaultAddressSync(
   programId: PublicKey,
   encodedName: number[]

@@ -13,7 +13,6 @@ import { AnchorProvider, Program, Wallet } from '@coral-xyz/anchor'
 import {
   getDepositorAddressSync,
   getTokenVaultAddressSync,
-  getUserAddressSync,
   getVaultAddressSync
 } from './utils/addresses'
 import { BN } from 'bn.js'
@@ -101,15 +100,10 @@ export default class TriadClient {
       throw new Error('Vault does not exist')
     }
 
-    const UserPDA = getUserAddressSync(
-      this.program.programId,
-      this.wallet.publicKey
-    )
-
     const DepositorPDA = getDepositorAddressSync(
       this.program.programId,
       VaultPDA,
-      UserPDA
+      this.wallet.publicKey
     )
 
     let hasDepositor = true
