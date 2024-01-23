@@ -150,11 +150,11 @@ export default class TriadClient {
       instructions: ix
     }).compileToV0Message()
 
-    const transaction = new VersionedTransaction(message)
+    let tx = new VersionedTransaction(message)
 
-    await this.wallet.signTransaction(transaction)
+    tx = await this.wallet.signTransaction(tx)
 
-    return this.connection.sendRawTransaction(transaction.serialize())
+    return this.connection.sendRawTransaction(tx.serialize())
   }
 
   public async withdraw() {}
