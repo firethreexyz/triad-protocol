@@ -77,6 +77,9 @@ export default class TriadClient {
     }))
   }
 
+  /**
+   * Get vault by name
+   */
   async getVaultByName(vaultName: string) {
     const encodeVaultName = encodeName(vaultName)
     const VaultPDA = getVaultAddressSync(
