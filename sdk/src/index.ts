@@ -6,10 +6,7 @@ import {
   TransactionMessage
 } from '@solana/web3.js'
 import { IDL, Triad } from './types/triad'
-import {
-  getAccount,
-  getAssociatedTokenAddress,
-} from '@solana/spl-token'
+import { getAccount, getAssociatedTokenAddress } from '@solana/spl-token'
 import { decodeName, encodeName } from './utils/name'
 import { TRIAD_PROGRAM_ID } from './constants/program'
 import { AnchorProvider, Program, Wallet } from '@coral-xyz/anchor'
