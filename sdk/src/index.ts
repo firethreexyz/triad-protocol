@@ -6,7 +6,10 @@ import {
   TransactionMessage
 } from '@solana/web3.js'
 import { IDL, Triad } from './types/triad'
-import { getAssociatedTokenAddress } from '@solana/spl-token'
+import {
+  getAccount,
+  getAssociatedTokenAddress,
+} from '@solana/spl-token'
 import { decodeName, encodeName } from './utils/name'
 import { TRIAD_PROGRAM_ID } from './constants/program'
 import { AnchorProvider, Program, Wallet } from '@coral-xyz/anchor'
@@ -72,6 +75,28 @@ export default class TriadClient {
       name: decodeName(vault.account.name),
       tokenAccount: vault.account.tokenAccount
     }))
+  }
+
+  async getVaultByName(vaultName: string) {
+    const encodeVaultName = encodeName(vaultName)
+    const VaultPDA = getVaultAddressSync(
+      this.program.programId,
+      encodeVaultName
+    )
+
+    try {
+      const vault = await this.program.account.vault.fetch(VaultPDA)
+
+      const tokenAcc = await getAccount(this.connection, vault.tokenAccount)
+
+      return {
+        name: decodeName(vault.name),
+        tokenAccount: vault.tokenAccount,
+        tvl: Number(tokenAcc.amount.toString()) / 10 ** 6
+      }
+    } catch (e) {
+      throw new Error(e)
+    }
   }
 
   /**
