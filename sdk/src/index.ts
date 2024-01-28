@@ -127,6 +127,7 @@ export default class TriadClient {
         totalDeposit: formatNumber(depositor.totalDeposit),
         totalWithdrawal: formatNumber(depositor.totalWithdrawal),
         lpShares: formatNumber(depositor.lpShares),
+        netDeposit: formatNumber(depositor.netDeposit), 
       })
     } catch (e) {
       throw new Error(e)
