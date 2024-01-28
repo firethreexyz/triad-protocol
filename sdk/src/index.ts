@@ -6,10 +6,7 @@ import {
   TransactionMessage
 } from '@solana/web3.js'
 import { IDL, Triad } from './types/triad'
-import {
-  getAccount,
-  getAssociatedTokenAddress,
-} from '@solana/spl-token'
+import { getAccount, getAssociatedTokenAddress } from '@solana/spl-token'
 import { decodeName, encodeName } from './utils/name'
 import { TRIAD_PROGRAM_ID } from './constants/program'
 import { AnchorProvider, Program, Wallet } from '@coral-xyz/anchor'
@@ -19,6 +16,8 @@ import {
   getVaultAddressSync
 } from './utils/addresses'
 import { BN } from 'bn.js'
+import { convertSecretKeyToKeypair } from './utils/convertSecretKeyToKeypair'
+import { formatNumber } from './utils/formatNumber'
 
 export default class TriadClient {
   program: Program<Triad>
@@ -80,7 +79,7 @@ export default class TriadClient {
   /**
    * Get vault by name
    */
-  async getVaultByName(vaultName: string) {
+  public async getVaultByName(vaultName: string) {
     const encodeVaultName = encodeName(vaultName)
     const VaultPDA = getVaultAddressSync(
       this.program.programId,
@@ -95,8 +94,40 @@ export default class TriadClient {
       return {
         name: decodeName(vault.name),
         tokenAccount: vault.tokenAccount,
-        tvl: Number(tokenAcc.amount.toString()) / 10 ** 6
+        tvl: formatNumber(tokenAcc.amount)
       }
+    } catch (e) {
+      throw new Error(e)
+    }
+  }
+
+  /**
+   * Get Depositor
+   */
+  public async getDepositor(vaultName: string) {
+    const encodeVaultName = encodeName(vaultName)
+    const VaultPDA = getVaultAddressSync(
+      this.program.programId,
+      encodeVaultName
+    )
+
+    const DepositorPDA = getDepositorAddressSync(
+      this.program.programId,
+      VaultPDA,
+      this.wallet.publicKey
+    )
+
+    try {
+      const depositor = await this.program.account.depositor.fetch(DepositorPDA)
+
+      return ({
+        authority: depositor.authority.toBase58(),
+        vault: depositor.vault.toBase58(),
+        bump: depositor.bump,
+        totalDeposit: formatNumber(depositor.totalDeposit),
+        totalWithdrawal: formatNumber(depositor.totalWithdrawal),
+        lpShares: formatNumber(depositor.lpShares),
+      })
     } catch (e) {
       throw new Error(e)
     }
@@ -189,3 +220,14 @@ export default class TriadClient {
 
   public async withdrawFees() {}
 }
+
+// const connection = new Connection('')
+// const keyPair = convertSecretKeyToKeypair('')
+
+// const main = async () => {
+//   const triad = new TriadClient(connection, new Wallet(keyPair))
+
+//   await triad.getDepositor('SONY')
+// }
+
+// main()

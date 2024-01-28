@@ -26,6 +26,7 @@
   "author": "@dannpl",
   "dependencies": {
     "@coral-xyz/anchor": "0.29.0",
+    "@firethreexyz/firethree-protocol": "^0.18.5",
     "@solana/spl-token": "^0.3.11",
     "axios": "^1.5.1",
     "bn.js": "^5.2.1",
