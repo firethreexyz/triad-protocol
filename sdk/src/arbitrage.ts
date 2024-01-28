@@ -3,7 +3,6 @@ import { Connection } from '@solana/web3.js'
 import { encodeName } from './utils/name'
 import { getVaultAddressSync } from './utils/addresses'
 import { Triad } from 'triad'
-import { } from '@firethreexyz/firethree-protocol'
 
 export default class ArbitrageClient {
   program: Program<Triad>
